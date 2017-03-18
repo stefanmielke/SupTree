@@ -7,20 +7,21 @@ namespace SupTree
 {
     public class Supervisor
     {
+        public SupervisorConfiguration Configuration { get; private set; }
+
         private readonly IMessageReceiver _receiver;
         private readonly IMessageSender _sender;
         private readonly Func<Worker> _factory;
-        private readonly SupervisorConfiguration _configuration;
         private bool _finished;
 
         private List<Thread> _threads;
-        
+
         public Supervisor(IMessageReceiver receiver, IMessageSender sender, Func<Worker> factoryMethod, SupervisorConfiguration configuration)
         {
             _receiver = receiver;
             _sender = sender;
             _factory = factoryMethod;
-            _configuration = configuration;
+            Configuration = configuration;
         }
 
         private Message GetMessage()
@@ -37,7 +38,7 @@ namespace SupTree
         {
             _finished = false;
 
-            _threads = new List<Thread>(_configuration.MaxWorkers);
+            _threads = new List<Thread>(Configuration.MaxWorkers);
 
             while (!_finished)
             {
@@ -58,16 +59,16 @@ namespace SupTree
             }
 
             while (_threads.Any(t => t.IsAlive))
-                Thread.Sleep(_configuration.WaitFreeThreadTime);
+                Thread.Sleep(Configuration.WaitFreeThreadTime);
 
             _threads.Clear();
         }
 
         private void WaitFreeThread()
         {
-            while (_threads.Count >= _configuration.MaxWorkers)
+            while (_threads.Count >= Configuration.MaxWorkers)
             {
-                Thread.Sleep(_configuration.WaitFreeThreadTime);
+                Thread.Sleep(Configuration.WaitFreeThreadTime);
 
                 CleanDoneWorkers();
             }
@@ -85,6 +86,26 @@ namespace SupTree
             {
                 switch (systemMessage.Type)
                 {
+                    case SystemMessage.MessageType.ChangeConfigurationMaxWorkers:
+                        {
+                            if (int.TryParse(systemMessage.Value, out int maxWorkers))
+                            {
+                                var config = Configuration;
+                                config.MaxWorkers = maxWorkers;
+                                Configuration = config;
+                            }
+                        }
+                        break;
+                    case SystemMessage.MessageType.ChangeConfigurationWaitFreeThreadTime:
+                        {
+                            if (int.TryParse(systemMessage.Value, out int maxWaitTime))
+                            {
+                                var config = Configuration;
+                                config.WaitFreeThreadTime = maxWaitTime;
+                                Configuration = config;
+                            }
+                        }
+                        break;
                     default:
                         _finished = true;
                         break;

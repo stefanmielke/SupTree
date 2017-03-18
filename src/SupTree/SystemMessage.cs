@@ -4,9 +4,13 @@
     {
         public MessageType Type { get; set; }
 
+        public string Value { get; set; }
+
         public enum MessageType
         {
-            Stop
+            Stop,
+            ChangeConfigurationMaxWorkers,
+            ChangeConfigurationWaitFreeThreadTime
         }
     }
 }

@@ -6,24 +6,21 @@ namespace SupTree.Test.TestImplementations
     {
         public readonly Queue<Message> MessageQueue = new Queue<Message>();
 
-        public void CreateStopMessage()
-        {
-            var message = new Message
-            {
-                Format = "SYSTEM"
-            };
-
-            message.SetBody(new SystemMessage { Type = SystemMessage.MessageType.Stop });
-
-            MessageQueue.Enqueue(message);
-        }
-
         public void CreateMessage()
         {
             var message = new Message
             {
                 Format = "TEST"
             };
+
+            MessageQueue.Enqueue(message);
+        }
+
+        public void CreateSystemMessage(SystemMessage.MessageType configType, string value = null)
+        {
+            var message = new Message { Format = "SYSTEM" };
+
+            message.SetBody(new SystemMessage { Type = configType, Value = value});
 
             MessageQueue.Enqueue(message);
         }

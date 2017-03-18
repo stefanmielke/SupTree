@@ -1,6 +1,6 @@
 ﻿namespace SupTree
 {
-    public class SupervisorConfiguration
+    public struct SupervisorConfiguration
     {
         /// <summary>
         /// Max initial workers allowed (default 10)
@@ -12,10 +12,10 @@
         /// </summary>
         public int WaitFreeThreadTime { get; set; }
 
-        public SupervisorConfiguration()
+        public SupervisorConfiguration(int maxWorkers = 10, int waitFreeThreadTime = 1000)
         {
-            MaxWorkers = 10;
-            WaitFreeThreadTime = 1000;
+            MaxWorkers = maxWorkers;
+            WaitFreeThreadTime = waitFreeThreadTime;
         }
     }
 }
