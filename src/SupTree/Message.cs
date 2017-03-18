@@ -19,7 +19,7 @@ namespace SupTree
 
         public DateTime Time { get; set; }
 
-        public string Body { get; private set; }
+        public string Body { get; set; }
 
         public void SetBody<T>(T body)
         {
