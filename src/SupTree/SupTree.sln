@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupTree.MSMQ", "..\SupTree.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupTree.FileSystem", "..\SupTree.FileSystem\SupTree.FileSystem.csproj", "{66034EF5-0FB8-425D-9091-FC7613A871B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupTree.Common", "SupTree.Common\SupTree.Common.csproj", "{DB6B3B40-657E-4CE2-AD16-31CCDA1C52F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupTree.Common", "..\SupTree.Common\SupTree.Common.csproj", "{DB6B3B40-657E-4CE2-AD16-31CCDA1C52F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

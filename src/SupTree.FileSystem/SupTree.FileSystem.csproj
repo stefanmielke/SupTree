@@ -49,7 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SupTree\SupTree.Common\SupTree.Common.csproj">
+    <ProjectReference Include="..\SupTree.Common\SupTree.Common.csproj">
       <Project>{db6b3b40-657e-4ce2-ad16-31ccda1c52f7}</Project>
       <Name>SupTree.Common</Name>
     </ProjectReference>
