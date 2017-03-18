@@ -7,7 +7,9 @@ Simple worker processing through message passing.
 - Implement a Worker, inheriting from SupTree.Worker and implement the methods you want to use;
 - Create a supervisor passing the required attributes.
 
-## Example
+## Examples
+
+### Basic Setup
 
 ```csharp
 // receive messages from the FileSystem
@@ -28,3 +30,16 @@ var supervisor = new Supervisor(receiver, sender, () => new WorkerTest(), supCon
 // start the supervisor and wait for it to exit
 supervisor.Start();
 ```
+
+### Sending Messages in Worker
+
+```csharp
+var message = new Message();
+message.SetBody(new SimpleMessageObject { Guid = new Guid().ToString() });
+
+Supervisor.SendMessage(message);
+```
+
+### Receiving Messages
+
+Messages are automatically received using the IMessageReceiver passed to the Supervisor and sent to the respective workers.
