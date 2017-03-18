@@ -11,6 +11,8 @@
     <AssemblyName>SupTree.ZeroMQ</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\SupTree\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -37,10 +42,34 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="ZeroMQ, Version=4.1.0.22, Culture=neutral, PublicKeyToken=4a9630883fd6c563, processorArchitecture=MSIL">
+      <HintPath>..\SupTree\packages\ZeroMQ.4.1.0.22\lib\net40\ZeroMQ.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="MessageQueueZeroMQReceiver.cs" />
+    <Compile Include="MessageQueueZeroMQSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SupTree.Common\SupTree.Common.csproj">
+      <Project>{db6b3b40-657e-4ce2-ad16-31ccda1c52f7}</Project>
+      <Name>SupTree.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SupTree\SupTree.csproj">
+      <Project>{e8dfdb8c-d9d0-4e96-bdee-9f6109f56275}</Project>
+      <Name>SupTree</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\SupTree\packages\ZeroMQ.4.1.0.22\build\net40\ZeroMQ.targets" Condition="Exists('..\SupTree\packages\ZeroMQ.4.1.0.22\build\net40\ZeroMQ.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\SupTree\packages\ZeroMQ.4.1.0.22\build\net40\ZeroMQ.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\SupTree\packages\ZeroMQ.4.1.0.22\build\net40\ZeroMQ.targets'))" />
+  </Target>
 </Project>

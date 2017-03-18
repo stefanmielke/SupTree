@@ -4,6 +4,7 @@ using NUnit.Framework;
 using SupTree.FileSystem;
 using SupTree.MSMQ;
 using SupTree.Test.TestImplementations;
+using SupTree.ZeroMQ;
 
 namespace SupTree.Test
 {
@@ -41,6 +42,8 @@ namespace SupTree.Test
 
                 var fileSystemDir = @"C:\Users\mielke\Desktop\test\" + Guid.NewGuid();
                 yield return new TestCaseData(new MessageQueueFileSystem(fileSystemDir, "*.json", "json"), new MessageQueueFileSystem(fileSystemDir, "*.json", "json"));
+
+                yield return new TestCaseData(new MessageQueueZeroMQSender("tcp://127.0.0.1:15055"), new MessageQueueZeroMQReceiver("tcp://127.0.0.1:15055"));
             }
         }
     }
