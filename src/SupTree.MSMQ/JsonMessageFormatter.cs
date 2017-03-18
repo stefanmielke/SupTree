@@ -3,6 +3,7 @@ using System.IO;
 using System.Messaging;
 using System.Text;
 using Newtonsoft.Json;
+using SupTree.Common;
 
 namespace SupTree.MSMQ
 {
@@ -56,8 +57,14 @@ namespace SupTree.MSMQ
 
             using (var reader = new StreamReader(message.BodyStream, Encoding))
             {
-                var json = reader.ReadToEnd();
-                return JsonConvert.DeserializeObject(json, _serializerSettings);
+                using (var memoryReader = new MemoryStream())
+                {
+                    reader.BaseStream.CopyTo(memoryReader);
+                    var bytes = memoryReader.ToArray();
+                    var json = Compression.UnGZip(bytes, Encoding);
+
+                    return JsonConvert.DeserializeObject(json, _serializerSettings);
+                }
             }
         }
 
@@ -70,8 +77,9 @@ namespace SupTree.MSMQ
                 throw new ArgumentNullException(nameof(obj));
 
             string json = JsonConvert.SerializeObject(obj, Formatting.None, _serializerSettings);
+            var compressedJson = Compression.GZip(json, Encoding);
 
-            message.BodyStream = new MemoryStream(Encoding.GetBytes(json));
+            message.BodyStream = new MemoryStream(compressedJson);
 
             //Need to reset the body type, in case the same message
             //is reused by some other formatter.

@@ -6,9 +6,9 @@ namespace SupTree.Common
 {
     public static class Compression
     {
-        public static byte[] GZip(string str)
+        public static byte[] GZip(string str, Encoding encoding)
         {
-            var bytes = Encoding.UTF8.GetBytes(str);
+            var bytes = encoding.GetBytes(str);
 
             using (var msi = new MemoryStream(bytes))
             using (var mso = new MemoryStream())
@@ -22,7 +22,7 @@ namespace SupTree.Common
             }
         }
 
-        public static string UnGZip(byte[] bytes)
+        public static string UnGZip(byte[] bytes, Encoding encoding)
         {
             using (var msi = new MemoryStream(bytes))
             using (var mso = new MemoryStream())
@@ -32,7 +32,7 @@ namespace SupTree.Common
                     CopyTo(gs, mso);
                 }
 
-                return Encoding.UTF8.GetString(mso.ToArray());
+                return encoding.GetString(mso.ToArray());
             }
         }
 

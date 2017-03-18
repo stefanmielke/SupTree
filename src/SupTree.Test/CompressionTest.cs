@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Text;
+using NUnit.Framework;
 using SupTree.Common;
 
 namespace SupTree.Test
@@ -11,8 +12,8 @@ namespace SupTree.Test
         {
             var largeString = LargeString.GetLargeString;
 
-            var bytes = Compression.GZip(largeString);
-            var newLargeString = Compression.UnGZip(bytes);
+            var bytes = Compression.GZip(largeString, Encoding.UTF8);
+            var newLargeString = Compression.UnGZip(bytes, Encoding.UTF8);
 
             Assert.That(newLargeString, Is.EqualTo(largeString));
         }
