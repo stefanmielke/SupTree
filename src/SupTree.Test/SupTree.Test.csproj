@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompressionTest.cs" />
+    <Compile Include="LargeString.cs" />
     <Compile Include="MessagingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SupervisorTest.cs" />
@@ -64,6 +66,10 @@
     <ProjectReference Include="..\SupTree.MSMQ\SupTree.MSMQ.csproj">
       <Project>{3c976ed9-fec4-4124-a359-9f257aca3a8b}</Project>
       <Name>SupTree.MSMQ</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SupTree\SupTree.Common\SupTree.Common.csproj">
+      <Project>{db6b3b40-657e-4ce2-ad16-31ccda1c52f7}</Project>
+      <Name>SupTree.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\SupTree\SupTree.csproj">
       <Project>{e8dfdb8c-d9d0-4e96-bdee-9f6109f56275}</Project>
