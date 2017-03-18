@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Newtonsoft.Json;
 using SupTree.Common;
 
@@ -12,12 +13,14 @@ namespace SupTree.FileSystem
         private readonly string _directoryPath;
         private readonly string _fileFilter;
         private readonly string _fileExtension;
+        private readonly int _waitForNewFileTime;
 
-        public MessageQueueFileSystem(string directoryPath, string fileFilter, string fileExtension)
+        public MessageQueueFileSystem(string directoryPath, string fileFilter, string fileExtension, int waitForNewFileTime = 1000)
         {
             _directoryPath = directoryPath;
             _fileFilter = fileFilter;
             _fileExtension = fileExtension;
+            _waitForNewFileTime = waitForNewFileTime;
 
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
@@ -29,6 +32,9 @@ namespace SupTree.FileSystem
             do
             {
                 file = Directory.EnumerateFiles(_directoryPath, _fileFilter).FirstOrDefault(); 
+                if (string.IsNullOrEmpty(file))
+                    Thread.Sleep(_waitForNewFileTime);
+
             } while (string.IsNullOrEmpty(file));
 
             var fileContent = File.ReadAllBytes(file);

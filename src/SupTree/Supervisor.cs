@@ -37,7 +37,7 @@ namespace SupTree
         {
             _finished = false;
 
-            _threads = new List<Thread>(_configuration.MaxWorkersOverload);
+            _threads = new List<Thread>(_configuration.MaxWorkers);
 
             while (!_finished)
             {
@@ -58,7 +58,7 @@ namespace SupTree
             }
 
             while (_threads.Any(t => t.IsAlive))
-                Thread.Sleep(10);
+                Thread.Sleep(_configuration.WaitFreeThreadTime);
 
             _threads.Clear();
         }
@@ -67,7 +67,7 @@ namespace SupTree
         {
             while (_threads.Count >= _configuration.MaxWorkers)
             {
-                Thread.Sleep(1);
+                Thread.Sleep(_configuration.WaitFreeThreadTime);
 
                 CleanDoneWorkers();
             }

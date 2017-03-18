@@ -21,8 +21,7 @@ namespace SupTree.Test
 
             var supConfig = new SupervisorConfiguration
             {
-                MaxWorkers = 2,
-                MaxWorkersOverload = 2
+                MaxWorkers = 2
             };
 
             _supervisor = new Supervisor(_receiver, _sender, () => new WorkerTest(), supConfig);
