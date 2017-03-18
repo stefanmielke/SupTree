@@ -57,6 +57,10 @@
     <Compile Include="TestImplementations\WorkerTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SupTree.FileSystem\SupTree.FileSystem.csproj">
+      <Project>{66034ef5-0fb8-425d-9091-fc7613a871b7}</Project>
+      <Name>SupTree.FileSystem</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SupTree.MSMQ\SupTree.MSMQ.csproj">
       <Project>{3c976ed9-fec4-4124-a359-9f257aca3a8b}</Project>
       <Name>SupTree.MSMQ</Name>
@@ -64,10 +68,6 @@
     <ProjectReference Include="..\SupTree\SupTree.csproj">
       <Project>{e8dfdb8c-d9d0-4e96-bdee-9f6109f56275}</Project>
       <Name>SupTree</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SupTree\SupTree.FileSystem\SupTree.FileSystem.csproj">
-      <Project>{66034ef5-0fb8-425d-9091-fc7613a871b7}</Project>
-      <Name>SupTree.FileSystem</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
