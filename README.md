@@ -14,7 +14,7 @@ Simple worker processing through message passing.
 var receiver = new MessageQueueFileSystem(@"C:\test_folder", "*.json", "json");
 
 // send messages to MSMQ
-var sender = new new MessageQueueMSMQ("test_queue");
+var sender = new MessageQueueMSMQ("test_queue");
 
 // configure to process at most 2 messages at any time
 var supConfig = new SupervisorConfiguration
