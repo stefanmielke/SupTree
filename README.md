@@ -9,20 +9,22 @@ Simple worker processing through message passing.
 
 ## Example
 
-    // receive messages from the FileSystem
-    var receiver = new MessageQueueFileSystem(@"C:\test_folder", "*.json", "json");
-    
-    // send messages to MSMQ
-    var sender = new new MessageQueueMSMQ("test_queue");
+```csharp
+// receive messages from the FileSystem
+var receiver = new MessageQueueFileSystem(@"C:\test_folder", "*.json", "json");
 
-    // configure to process at most 2 messages at any time
-    var supConfig = new SupervisorConfiguration
-    {
-        MaxWorkers = 2
-    };
+// send messages to MSMQ
+var sender = new new MessageQueueMSMQ("test_queue");
 
-    // create a supervisor using the configuration above, using 'WorkerTest' to process messages
-    var supervisor = new Supervisor(receiver, sender, () => new WorkerTest(), supConfig);
-    
-    // start the supervisor and wait for it to exit
-    supervisor.Start();
+// configure to process at most 2 messages at any time
+var supConfig = new SupervisorConfiguration
+{
+    MaxWorkers = 2
+};
+
+// create a supervisor using the configuration above, using 'WorkerTest' to process messages
+var supervisor = new Supervisor(receiver, sender, () => new WorkerTest(), supConfig);
+
+// start the supervisor and wait for it to exit
+supervisor.Start();
+```
