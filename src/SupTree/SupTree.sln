@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupTree.FileSystem", "..\Su
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupTree.Common", "..\SupTree.Common\SupTree.Common.csproj", "{DB6B3B40-657E-4CE2-AD16-31CCDA1C52F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupTree.ZeroMQ", "..\SupTree.ZeroMQ\SupTree.ZeroMQ.csproj", "{6A21AE53-A426-4853-8A2B-8776BDA9E08E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DB6B3B40-657E-4CE2-AD16-31CCDA1C52F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB6B3B40-657E-4CE2-AD16-31CCDA1C52F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB6B3B40-657E-4CE2-AD16-31CCDA1C52F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A21AE53-A426-4853-8A2B-8776BDA9E08E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A21AE53-A426-4853-8A2B-8776BDA9E08E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A21AE53-A426-4853-8A2B-8776BDA9E08E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A21AE53-A426-4853-8A2B-8776BDA9E08E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

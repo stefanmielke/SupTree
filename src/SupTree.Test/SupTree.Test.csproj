@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SupTree.Test</RootNamespace>
     <AssemblyName>SupTree.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -34,10 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\SupTree\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="StructureMap, Version=4.4.3.564, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\SupTree\packages\StructureMap.4.4.3\lib\net45\StructureMap.dll</HintPath>
+      <HintPath>..\SupTree\packages\NUnit.3.6.1\lib\net40\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,6 +56,9 @@
     <Compile Include="TestImplementations\WorkerTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\SupTree.Common\SupTree.Common.csproj">
       <Project>{db6b3b40-657e-4ce2-ad16-31ccda1c52f7}</Project>
       <Name>SupTree.Common</Name>
@@ -71,13 +71,14 @@
       <Project>{3c976ed9-fec4-4124-a359-9f257aca3a8b}</Project>
       <Name>SupTree.MSMQ</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SupTree.ZeroMQ\SupTree.ZeroMQ.csproj">
+      <Project>{6a21ae53-a426-4853-8a2b-8776bda9e08e}</Project>
+      <Name>SupTree.ZeroMQ</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SupTree\SupTree.csproj">
       <Project>{e8dfdb8c-d9d0-4e96-bdee-9f6109f56275}</Project>
       <Name>SupTree</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
