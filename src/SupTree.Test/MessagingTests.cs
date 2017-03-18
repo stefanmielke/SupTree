@@ -2,6 +2,7 @@
 using System.Collections;
 using NUnit.Framework;
 using SupTree.FileSystem;
+using SupTree.Kafka;
 using SupTree.MSMQ;
 using SupTree.Test.TestImplementations;
 using SupTree.ZeroMQ;
@@ -44,6 +45,8 @@ namespace SupTree.Test
                 yield return new TestCaseData(new MessageQueueFileSystem(fileSystemDir, "*.json", "json"), new MessageQueueFileSystem(fileSystemDir, "*.json", "json"));
 
                 yield return new TestCaseData(new MessageQueueZeroMQSender("tcp://127.0.0.1:15055"), new MessageQueueZeroMQReceiver("tcp://127.0.0.1:15055"));
+
+                yield return new TestCaseData(new MessageQueueKafkaSender("127.0.0.1:9092", "test"), new MessageQueueKafkaReceiver("127.0.0.1:9092", "test"));
             }
         }
     }
