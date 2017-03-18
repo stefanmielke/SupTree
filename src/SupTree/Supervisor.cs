@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using StructureMap;
 
 namespace SupTree
 {
@@ -15,11 +14,11 @@ namespace SupTree
         private bool _finished;
 
         private List<Thread> _threads;
-
-        public Supervisor(IContainer container, Func<Worker> factoryMethod, SupervisorConfiguration configuration)
+        
+        public Supervisor(IMessageReceiver receiver, IMessageSender sender, Func<Worker> factoryMethod, SupervisorConfiguration configuration)
         {
-            _receiver = container.GetInstance<IMessageReceiver>();
-            _sender = container.GetInstance<IMessageSender>();
+            _receiver = receiver;
+            _sender = sender;
             _factory = factoryMethod;
             _configuration = configuration;
         }

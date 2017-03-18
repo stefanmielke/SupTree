@@ -1,19 +1,16 @@
 ﻿using System.Threading;
 using NUnit.Framework;
-using StructureMap;
 using SupTree.Test.TestImplementations;
 
 namespace SupTree.Test
 {
     [TestFixture]
-    class SupervisorTest
+    internal class SupervisorTest
     {
-        private readonly Container _container;
         private readonly Supervisor _supervisor;
         private readonly Supervisor _supervisorFailure;
         private readonly Supervisor _supervisorError;
         private readonly Supervisor _supervisorOverload;
-        private readonly SupervisorConfiguration _supConfig;
         private readonly ReceiverTest _receiver;
         private readonly SenderTest _sender;
 
@@ -22,22 +19,16 @@ namespace SupTree.Test
             _receiver = new ReceiverTest();
             _sender = new SenderTest();
 
-            _container = new Container(c =>
-            {
-                c.For<IMessageReceiver>().Use(_receiver);
-                c.For<IMessageSender>().Use(_sender);
-            });
-
-            _supConfig = new SupervisorConfiguration
+            var supConfig = new SupervisorConfiguration
             {
                 MaxWorkers = 2,
                 MaxWorkersOverload = 2
             };
 
-            _supervisor = new Supervisor(_container, () => new WorkerTest(), _supConfig);
-            _supervisorFailure = new Supervisor(_container, () => new WorkerFailureTest(), _supConfig);
-            _supervisorError = new Supervisor(_container, () => new WorkerErrorTest(), _supConfig);
-            _supervisorOverload = new Supervisor(_container, () => new WorkerOverloadTest(), _supConfig);
+            _supervisor = new Supervisor(_receiver, _sender, () => new WorkerTest(), supConfig);
+            _supervisorFailure = new Supervisor(_receiver, _sender, () => new WorkerFailureTest(), supConfig);
+            _supervisorError = new Supervisor(_receiver, _sender, () => new WorkerErrorTest(), supConfig);
+            _supervisorOverload = new Supervisor(_receiver, _sender, () => new WorkerOverloadTest(), supConfig);
         }
 
         [SetUp]
