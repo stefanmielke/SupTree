@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Messaging;
-using System.Security.Principal;
 
 namespace SupTree.MSMQ
 {
@@ -15,9 +14,6 @@ namespace SupTree.MSMQ
 
         public Message Receive()
         {
-            if (_queue == null)
-                return null;
-
             System.Messaging.Message queueMessage;
             do
             {
@@ -29,9 +25,6 @@ namespace SupTree.MSMQ
 
         public void Send(Message message)
         {
-            if (_queue == null)
-                return;
-
             var queueMessage = new System.Messaging.Message(message) { Formatter = new JsonMessageFormatter() };
 
             _queue.Send(queueMessage);

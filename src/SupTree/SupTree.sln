@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupTree.Test", "..\SupTree.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupTree.MSMQ", "..\SupTree.MSMQ\SupTree.MSMQ.csproj", "{3C976ED9-FEC4-4124-A359-9F257ACA3A8B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupTree.FileSystem", "SupTree.FileSystem\SupTree.FileSystem.csproj", "{66034EF5-0FB8-425D-9091-FC7613A871B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{3C976ED9-FEC4-4124-A359-9F257ACA3A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C976ED9-FEC4-4124-A359-9F257ACA3A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C976ED9-FEC4-4124-A359-9F257ACA3A8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66034EF5-0FB8-425D-9091-FC7613A871B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66034EF5-0FB8-425D-9091-FC7613A871B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66034EF5-0FB8-425D-9091-FC7613A871B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66034EF5-0FB8-425D-9091-FC7613A871B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

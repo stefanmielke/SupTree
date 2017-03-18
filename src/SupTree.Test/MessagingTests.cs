@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using NUnit.Framework;
+using SupTree.FileSystem;
 using SupTree.MSMQ;
 using SupTree.Test.TestImplementations;
 
@@ -8,16 +10,14 @@ namespace SupTree.Test
     [TestFixture]
     internal class MessagingTests
     {
-        [Test]
-        public void CanSendAndReceiveMessage()
+        [Test, TestCaseSource(typeof(MessagingTestDataFactory), nameof(MessagingTestDataFactory.TestCases))]
+        public void CanSendAndReceiveMessages(IMessageSender messageQueueSender, IMessageReceiver messageQueueReceiver)
         {
-            var messageQueue = new MessageQueueMSMQ("test");
-
             var message = GetNewMessage();
 
-            messageQueue.Send(message);
+            messageQueueSender.Send(message);
 
-            var receivedMessage = messageQueue.Receive();
+            var receivedMessage = messageQueueReceiver.Receive();
 
             Assert.That(receivedMessage.Body, Is.EqualTo(message.Body));
         }
@@ -28,6 +28,20 @@ namespace SupTree.Test
             message.SetBody(new SimpleMessageObject { Guid = new Guid().ToString() });
 
             return message;
+        }
+    }
+
+    public class MessagingTestDataFactory
+    {
+        public static IEnumerable TestCases
+        {
+            get
+            {
+                yield return new TestCaseData(new MessageQueueMSMQ("test"), new MessageQueueMSMQ("test"));
+
+                var fileSystemDir = @"C:\Users\mielke\Desktop\test\" + Guid.NewGuid();
+                yield return new TestCaseData(new MessageQueueFileSystem(fileSystemDir, "*.json", "json"), new MessageQueueFileSystem(fileSystemDir, "*.json", "json"));
+            }
         }
     }
 }
