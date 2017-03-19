@@ -47,8 +47,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageQueueZeroMQPublisher.cs" />
     <Compile Include="MessageQueueZeroMQReceiver.cs" />
     <Compile Include="MessageQueueZeroMQSender.cs" />
+    <Compile Include="MessageQueueZeroMQSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
