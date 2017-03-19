@@ -6,7 +6,11 @@ using ZeroMQ;
 
 namespace SupTree.ZeroMQ
 {
-    public class MessageQueueZeroMQPublisher : IMessageSender
+    public interface IMessageQueueZeroMQPublisher : IMessageSender
+    {
+    }
+
+    public class MessageQueueZeroMQPublisher : IMessageQueueZeroMQPublisher
     {
         private readonly string _endpoint;
 

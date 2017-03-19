@@ -7,7 +7,9 @@ using SupTree.Common;
 
 namespace SupTree.Kafka
 {
-    public class MessageQueueKafkaSender : IMessageSender, IDisposable
+    public interface IMessageQueueKafkaSender : IMessageSender { }
+
+    public class MessageQueueKafkaSender : IMessageQueueKafkaSender
     {
         private readonly string _topic;
         private readonly Producer<Null, byte[]> _producer;

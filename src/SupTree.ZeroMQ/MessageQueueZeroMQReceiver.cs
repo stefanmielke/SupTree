@@ -5,7 +5,9 @@ using ZeroMQ;
 
 namespace SupTree.ZeroMQ
 {
-    public class MessageQueueZeroMQReceiver : IMessageReceiver
+    public interface IMessageQueueZeroMQReceiver : IMessageReceiver { }
+
+    public class MessageQueueZeroMQReceiver : IMessageQueueZeroMQReceiver
     {
         private readonly string _endpoint;
         private readonly ZSocket _receiver;

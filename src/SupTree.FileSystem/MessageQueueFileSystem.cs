@@ -8,7 +8,9 @@ using SupTree.Common;
 
 namespace SupTree.FileSystem
 {
-    public class MessageQueueFileSystem : IMessageReceiver, IMessageSender
+    public interface IMessageQueueFileSystem : IMessageReceiver, IMessageSender { }
+
+    public class MessageQueueFileSystem : IMessageQueueFileSystem
     {
         private readonly string _directoryPath;
         private readonly string _fileFilter;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using Confluent.Kafka;
 using Newtonsoft.Json;
@@ -7,8 +6,9 @@ using SupTree.Common;
 
 namespace SupTree.Kafka
 {
+    public interface IMessageQueueKafkaReceiver : IMessageReceiver { }
 
-    public class MessageQueueKafkaReceiver : IMessageReceiver, IDisposable
+    public class MessageQueueKafkaReceiver : IMessageQueueKafkaReceiver
     {
         private readonly Consumer<Null, byte[]> _consumer;
         private readonly Queue<Message<Null, byte[]>> _messages = new Queue<Message<Null, byte[]>>();

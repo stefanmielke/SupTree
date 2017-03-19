@@ -3,7 +3,9 @@ using System.Messaging;
 
 namespace SupTree.MSMQ
 {
-    public class MessageQueueMSMQ : IMessageReceiver, IMessageSender
+    public interface IMessageQueueMSMQ : IMessageReceiver, IMessageSender { }
+
+    public class MessageQueueMSMQ : IMessageQueueMSMQ
     {
         private readonly MessageQueue _queue;
 
