@@ -1,6 +1,8 @@
-﻿namespace SupTree
+﻿using System;
+
+namespace SupTree
 {
-    public interface IMessageReceiver
+    public interface IMessageReceiver : IDisposable
     {
         Message Receive();
     }

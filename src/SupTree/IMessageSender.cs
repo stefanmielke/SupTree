@@ -1,6 +1,8 @@
-﻿namespace SupTree
+﻿using System;
+
+namespace SupTree
 {
-    public interface IMessageSender
+    public interface IMessageSender : IDisposable
     {
         void Send(Message message);
     }

@@ -41,5 +41,10 @@ namespace SupTree.MSMQ
 
             return queue;
         }
+
+        public void Dispose()
+        {
+            _queue.Dispose();
+        }
     }
 }

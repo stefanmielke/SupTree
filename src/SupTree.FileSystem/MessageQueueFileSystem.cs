@@ -59,5 +59,9 @@ namespace SupTree.FileSystem
 
             File.WriteAllBytes(fileName, messageGziped);
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

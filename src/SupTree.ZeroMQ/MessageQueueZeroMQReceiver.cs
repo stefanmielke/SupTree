@@ -1,17 +1,18 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Newtonsoft.Json;
 using SupTree.Common;
 using ZeroMQ;
 
 namespace SupTree.ZeroMQ
 {
-    public class MessageQueueZeroMQReceiver : IMessageReceiver, IDisposable
+    public class MessageQueueZeroMQReceiver : IMessageReceiver
     {
+        private readonly string _endpoint;
         private readonly ZSocket _receiver;
 
         public MessageQueueZeroMQReceiver(string endpoint)
         {
+            _endpoint = endpoint;
             _receiver = new ZSocket(ZSocketType.PULL);
             _receiver.Bind(endpoint);
         }
@@ -29,6 +30,7 @@ namespace SupTree.ZeroMQ
 
         public void Dispose()
         {
+            _receiver.Disconnect(_endpoint);
             _receiver.Dispose();
         }
     }

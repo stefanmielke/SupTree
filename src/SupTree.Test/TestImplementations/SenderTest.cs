@@ -15,5 +15,9 @@ namespace SupTree.Test.TestImplementations
         {
             Messages.Add(message);
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

@@ -31,5 +31,9 @@ namespace SupTree.Test.TestImplementations
 
             return MessageQueue.Dequeue();
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

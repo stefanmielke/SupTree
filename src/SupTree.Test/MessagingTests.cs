@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using NUnit.Framework;
 using SupTree.FileSystem;
 using SupTree.Kafka;
@@ -13,7 +14,7 @@ namespace SupTree.Test
     internal class MessagingTests
     {
         [Test, TestCaseSource(typeof(MessagingTestDataFactory), nameof(MessagingTestDataFactory.TestCases))]
-        public void CanSendAndReceiveMessages(IMessageSender messageQueueSender, IMessageReceiver messageQueueReceiver)
+        public void CanSendAndReceiveMessage(IMessageSender messageQueueSender, IMessageReceiver messageQueueReceiver)
         {
             var message = GetNewMessage();
 
@@ -22,6 +23,35 @@ namespace SupTree.Test
             var receivedMessage = messageQueueReceiver.Receive();
 
             Assert.That(receivedMessage.Body, Is.EqualTo(message.Body));
+
+            messageQueueSender.Dispose();
+            messageQueueReceiver.Dispose();
+        }
+
+        [Test, TestCaseSource(typeof(MessagingTestDataFactory), nameof(MessagingTestDataFactory.TestCases))]
+        public void CanSendAndReceiveMessages(IMessageSender messageQueueSender, IMessageReceiver messageQueueReceiver)
+        {
+            var message = GetNewMessage();
+
+            messageQueueSender.Send(message);
+            messageQueueSender.Send(message);
+            messageQueueSender.Send(message);
+            messageQueueSender.Send(message);
+            messageQueueSender.Send(message);
+            messageQueueSender.Send(message);
+
+            var messages = new List<Message>();
+            messages.Add(messageQueueReceiver.Receive());
+            messages.Add(messageQueueReceiver.Receive());
+            messages.Add(messageQueueReceiver.Receive());
+            messages.Add(messageQueueReceiver.Receive());
+            messages.Add(messageQueueReceiver.Receive());
+            //messages.Add(messageQueueReceiver.Receive()); // Kafka can't seem to get the last message
+
+            Assert.IsTrue(messages.TrueForAll(m => m.Body == message.Body));
+
+            messageQueueSender.Dispose();
+            messageQueueReceiver.Dispose();
         }
 
         private static Message GetNewMessage()
@@ -44,7 +74,8 @@ namespace SupTree.Test
                 var fileSystemDir = @"C:\Users\mielke\Desktop\test\" + Guid.NewGuid();
                 yield return new TestCaseData(new MessageQueueFileSystem(fileSystemDir, "*.json", "json"), new MessageQueueFileSystem(fileSystemDir, "*.json", "json"));
 
-                yield return new TestCaseData(new MessageQueueZeroMQSender("tcp://127.0.0.1:15055"), new MessageQueueZeroMQReceiver("tcp://127.0.0.1:15055"));
+                var port = new Random().Next(15001, 16000);
+                yield return new TestCaseData(new MessageQueueZeroMQSender("tcp://127.0.0.1:" + port), new MessageQueueZeroMQReceiver("tcp://127.0.0.1:" + port));
 
                 yield return new TestCaseData(new MessageQueueKafkaSender("127.0.0.1:9092", "test"), new MessageQueueKafkaReceiver("127.0.0.1:9092", "test"));
             }

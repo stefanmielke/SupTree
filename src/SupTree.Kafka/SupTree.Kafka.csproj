@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByteArrayFormatter.cs" />
     <Compile Include="MessageQueueKafkaReceiver.cs" />
     <Compile Include="MessageQueueKafkaSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

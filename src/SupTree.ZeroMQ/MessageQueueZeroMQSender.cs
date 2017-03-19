@@ -30,5 +30,9 @@ namespace SupTree.ZeroMQ
                 requester.Send(new ZFrame(messageGziped));
             }
         }
+
+        public void Dispose()
+        {
+        }
     }
 }
