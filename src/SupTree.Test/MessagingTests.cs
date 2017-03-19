@@ -73,11 +73,12 @@ namespace SupTree.Test
 
                 var fileSystemDir = @"C:\Users\mielke\Desktop\test\" + Guid.NewGuid();
                 yield return new TestCaseData(new MessageQueueFileSystem(fileSystemDir, "*.json", "json"), new MessageQueueFileSystem(fileSystemDir, "*.json", "json"));
+                yield return new TestCaseData(new MessageQueueFileSystemPlainFile(fileSystemDir, "*.txt", "txt"), new MessageQueueFileSystemPlainFile(fileSystemDir, "*.txt", "txt"));
 
                 var port = new Random().Next(15001, 16000);
                 yield return new TestCaseData(new MessageQueueZeroMQSender("tcp://127.0.0.1:" + port), new MessageQueueZeroMQReceiver("tcp://127.0.0.1:" + port));
 
-                yield return new TestCaseData(new MessageQueueKafkaSender("127.0.0.1:9092", "test"), new MessageQueueKafkaReceiver("127.0.0.1:9092", "test"));
+                //yield return new TestCaseData(new MessageQueueKafkaSender("127.0.0.1:9092", "test"), new MessageQueueKafkaReceiver("127.0.0.1:9092", "test"));
             }
         }
     }

@@ -37,25 +37,35 @@ namespace SupTree.FileSystem
 
             } while (string.IsNullOrEmpty(file));
 
-            var fileContent = File.ReadAllBytes(file);
-            var unzipedContent = Compression.UnGZip(fileContent, Encoding.UTF8);
-
-            var message = JsonConvert.DeserializeObject<Message>(unzipedContent);
+            var message = GetMessageFromFile(file);
 
             File.Delete(file);
 
             return message;
         }
 
+        protected virtual Message GetMessageFromFile(string file)
+        {
+            var fileContent = File.ReadAllBytes(file);
+            var unzipedContent = Compression.UnGZip(fileContent, Encoding.UTF8);
+
+            return JsonConvert.DeserializeObject<Message>(unzipedContent);
+        }
+
         public void Send(Message message)
+        {
+            var fileName = Path.Combine(_directoryPath, string.Concat(Guid.NewGuid(), ".", _fileExtension));
+
+            SetFileContent(fileName, message);
+        }
+
+        protected virtual void SetFileContent(string fileName, Message message)
         {
             var messageContent = JsonConvert.SerializeObject(message);
             if (messageContent == null)
                 throw new ApplicationException("Could not serialize message");
 
             var messageGziped = Compression.GZip(messageContent, Encoding.UTF8);
-
-            var fileName = Path.Combine(_directoryPath, string.Concat(Guid.NewGuid(), ".", _fileExtension));
 
             File.WriteAllBytes(fileName, messageGziped);
         }

@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MessageQueueFileSystem.cs" />
+    <Compile Include="MessageQueueFileSystemPlainFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
