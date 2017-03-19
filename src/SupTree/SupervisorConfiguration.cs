@@ -12,7 +12,7 @@
         /// </summary>
         public int WaitFreeThreadTime { get; set; }
 
-        public SupervisorConfiguration(int maxWorkers = 10, int waitFreeThreadTime = 1000)
+        public SupervisorConfiguration(int maxWorkers, int waitFreeThreadTime = 1000)
         {
             MaxWorkers = maxWorkers;
             WaitFreeThreadTime = waitFreeThreadTime;
