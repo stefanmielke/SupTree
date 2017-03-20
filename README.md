@@ -22,7 +22,7 @@ var container = new StandardKernel();
 container.Bind<IMessageReceiver>().ToConstant(receiver); // binding receiver (required)
 container.Bind<IWorker>().To<WorkerTest>(); // binding worker (required)
 
-container.Bind<IMessageSender>().ToConstant(sender); // binding default receiver (optional, to ease the usage later)
+container.Bind<IMessageSender>().ToConstant(sender); // binding default sender (optional, to ease the usage later)
 
 // configure to process at most 2 messages at any time
 var supConfig = new SupervisorConfiguration
