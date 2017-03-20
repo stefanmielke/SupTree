@@ -39,7 +39,16 @@ namespace SupTree.FileSystem
 
             } while (string.IsNullOrEmpty(file));
 
-            var message = GetMessageFromFile(file);
+            Message message;
+            try
+            {
+                message = GetMessageFromFile(file);
+            }
+            catch
+            {
+                File.Move(file, string.Concat(file, ".error"));
+                return null;
+            }
 
             File.Delete(file);
 
@@ -56,7 +65,7 @@ namespace SupTree.FileSystem
 
         public void Send(Message message)
         {
-            var fileName = Path.Combine(_directoryPath, string.Concat(Guid.NewGuid(), ".", _fileExtension));
+            var fileName = Path.Combine(_directoryPath, string.Concat(Guid.NewGuid(), ".", message.Tag ?? "ALL", ".", _fileExtension));
 
             SetFileContent(fileName, message);
         }

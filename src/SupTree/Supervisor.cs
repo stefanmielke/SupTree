@@ -28,7 +28,13 @@ namespace SupTree
 
         private Message GetMessage()
         {
-            return _receiver.Receive();
+            Message message;
+            do
+            {
+                message = _receiver.Receive();
+            } while (message == null);
+
+            return message;
         }
 
         public void Start()
