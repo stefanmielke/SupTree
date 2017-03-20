@@ -2,24 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Ninject;
+using Ninject.Syntax;
 
 namespace SupTree
 {
     public class Supervisor
     {
         public SupervisorConfiguration Configuration { get; private set; }
+        public IResolutionRoot Container { get; }
 
         private readonly IMessageReceiver _receiver;
-        private readonly IMessageSender _sender;
         private readonly Func<Worker> _factory;
         private bool _finished;
 
         private List<Thread> _threads;
 
-        public Supervisor(IMessageReceiver receiver, IMessageSender sender, Func<Worker> factoryMethod, SupervisorConfiguration configuration)
+        public Supervisor(IResolutionRoot container, Func<Worker> factoryMethod, SupervisorConfiguration configuration)
         {
-            _receiver = receiver;
-            _sender = sender;
+            _receiver = container.Get<IMessageReceiver>();
+            Container = container;
             _factory = factoryMethod;
             Configuration = configuration;
         }
@@ -27,11 +29,6 @@ namespace SupTree
         private Message GetMessage()
         {
             return _receiver.Receive();
-        }
-
-        public void SendMessage(Message message)
-        {
-            _sender.Send(message);
         }
 
         public void Start()

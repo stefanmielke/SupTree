@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Ninject;
+using System;
 using System.Threading;
 
 namespace SupTree.Test.TestImplementations
 {
-    class WorkerTest : Worker
+    internal class WorkerTest : Worker
     {
         protected override bool DoWork(Message message)
         {
@@ -14,11 +15,12 @@ namespace SupTree.Test.TestImplementations
         {
             base.OnSuccess();
 
-            Supervisor.SendMessage(new Message { Format = "SUCCESS" });
+            using (var sender = Supervisor.Container.Get<IMessageSender>())
+                sender.Send(new Message { Format = "SUCCESS" });
         }
     }
 
-    class WorkerFailureTest : Worker
+    internal class WorkerFailureTest : Worker
     {
         protected override bool DoWork(Message message)
         {
@@ -29,11 +31,12 @@ namespace SupTree.Test.TestImplementations
         {
             base.OnFailure();
 
-            Supervisor.SendMessage(new Message { Format = "FAILURE" });
+            using (var sender = Supervisor.Container.Get<IMessageSender>())
+                sender.Send(new Message { Format = "FAILURE" });
         }
     }
 
-    class WorkerErrorTest : Worker
+    internal class WorkerErrorTest : Worker
     {
         protected override bool DoWork(Message message)
         {
@@ -44,11 +47,12 @@ namespace SupTree.Test.TestImplementations
         {
             base.OnError(exception);
 
-            Supervisor.SendMessage(new Message { Format = "ERROR" });
+            using (var sender = Supervisor.Container.Get<IMessageSender>())
+                sender.Send(new Message { Format = "ERROR" });
         }
     }
 
-    class WorkerOverloadTest : Worker
+    internal class WorkerOverloadTest : Worker
     {
         protected override bool DoWork(Message message)
         {
