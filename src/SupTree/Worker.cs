@@ -2,12 +2,12 @@
 
 namespace SupTree
 {
-    public abstract class Worker
+    public abstract class Worker : IWorker
     {
-        protected Supervisor Supervisor;
+        protected ISupervisor Supervisor;
         private Exception _lastException;
 
-        public void Work(Supervisor supervisor, Message message)
+        public void Work(ISupervisor supervisor, Message message)
         {
             Supervisor = supervisor;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Ninject;
@@ -7,22 +6,20 @@ using Ninject.Syntax;
 
 namespace SupTree
 {
-    public class Supervisor
+    public class Supervisor : ISupervisor
     {
         public SupervisorConfiguration Configuration { get; private set; }
         public IResolutionRoot Container { get; }
 
         private readonly IMessageReceiver _receiver;
-        private readonly Func<Worker> _factory;
         private bool _finished;
 
         private List<Thread> _threads;
 
-        public Supervisor(IResolutionRoot container, Func<Worker> factoryMethod, SupervisorConfiguration configuration)
+        public Supervisor(IResolutionRoot container, SupervisorConfiguration configuration)
         {
             _receiver = container.Get<IMessageReceiver>();
             Container = container;
-            _factory = factoryMethod;
             Configuration = configuration;
         }
 
@@ -126,7 +123,7 @@ namespace SupTree
 
         private void StartWorker(Message message)
         {
-            var worker = _factory();
+            var worker = Container.Get<IWorker>();
             worker?.Work(this, message);
         }
     }

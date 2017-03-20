@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="IMessageReceiver.cs" />
     <Compile Include="IMessageSender.cs" />
+    <Compile Include="ISupervisor.cs" />
+    <Compile Include="IWorker.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Supervisor.cs" />

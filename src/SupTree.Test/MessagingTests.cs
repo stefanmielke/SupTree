@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using NUnit.Framework;
 using SupTree.FileSystem;
-using SupTree.Kafka;
 using SupTree.MSMQ;
 using SupTree.Test.TestImplementations;
 using SupTree.ZeroMQ;
