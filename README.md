@@ -42,8 +42,8 @@ var message = new Message();
 message.SetBody(new SimpleMessageObject { Guid = new Guid().ToString() });
 
 // get the correct sender from the supervisor (configured earlier)
-using (var sender = Supervisor.Container.Get<IMessageSender>())
-    sender.Send(message);
+var sender = Supervisor.Container.Get<IMessageSender>();
+sender.Send(message);
 ```
 
 ### Receiving Messages
