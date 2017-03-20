@@ -19,8 +19,10 @@ var receiver = new MessageQueueFileSystem(@"C:\test_folder", "*.json", "json");
 var sender = new MessageQueueMSMQ("test_queue");
 
 var container = new StandardKernel();
-container.Bind<IMessageReceiver>().ToConstant(receiver);
-container.Bind<IMessageSender>().ToConstant(sender);
+container.Bind<IMessageReceiver>().ToConstant(receiver); // binding receiver (required)
+container.Bind<IWorker>().To<WorkerTest>(); // binding worker (required)
+
+container.Bind<IMessageSender>().ToConstant(sender); // binding default receiver (optional, to ease the usage later)
 
 // configure to process at most 2 messages at any time
 var supConfig = new SupervisorConfiguration
@@ -28,8 +30,8 @@ var supConfig = new SupervisorConfiguration
     MaxWorkers = 2
 };
 
-// create a supervisor using the configuration above, using 'WorkerTest' to process messages
-var supervisor = new Supervisor(container, () => new WorkerTest(), supConfig);
+// create a supervisor using the configuration above
+var supervisor = new Supervisor(container, supConfig);
 
 // start the supervisor and wait for it to exit
 supervisor.Start();
