@@ -18,6 +18,10 @@ var receiver = new MessageQueueFileSystem(@"C:\test_folder", "*.json", "json");
 // send messages to MSMQ
 var sender = new MessageQueueMSMQ("test_queue");
 
+var container = new StandardKernel();
+container.Bind<IMessageReceiver>().ToConstant(receiver);
+container.Bind<IMessageSender>().ToConstant(sender);
+
 // configure to process at most 2 messages at any time
 var supConfig = new SupervisorConfiguration
 {
@@ -25,7 +29,7 @@ var supConfig = new SupervisorConfiguration
 };
 
 // create a supervisor using the configuration above, using 'WorkerTest' to process messages
-var supervisor = new Supervisor(receiver, sender, () => new WorkerTest(), supConfig);
+var supervisor = new Supervisor(container, () => new WorkerTest(), supConfig);
 
 // start the supervisor and wait for it to exit
 supervisor.Start();
@@ -37,7 +41,9 @@ supervisor.Start();
 var message = new Message();
 message.SetBody(new SimpleMessageObject { Guid = new Guid().ToString() });
 
-Supervisor.SendMessage(message);
+// get the correct sender from the supervisor (configured earlier)
+using (var sender = Supervisor.Container.Get<IMessageSender>())
+    sender.Send(message);
 ```
 
 ### Receiving Messages
