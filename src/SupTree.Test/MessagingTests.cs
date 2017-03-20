@@ -34,20 +34,16 @@ namespace SupTree.Test
         {
             var message = GetNewMessage();
 
-            messageQueueSender.Send(message);
-            messageQueueSender.Send(message);
-            messageQueueSender.Send(message);
-            messageQueueSender.Send(message);
-            messageQueueSender.Send(message);
-            messageQueueSender.Send(message);
+            for (int i = 0; i < 200; i++)
+            {
+                messageQueueSender.Send(message); 
+            }
 
             var messages = new List<Message>();
-            messages.Add(messageQueueReceiver.Receive());
-            messages.Add(messageQueueReceiver.Receive());
-            messages.Add(messageQueueReceiver.Receive());
-            messages.Add(messageQueueReceiver.Receive());
-            messages.Add(messageQueueReceiver.Receive());
-            messages.Add(messageQueueReceiver.Receive()); // Kafka can't seem to get the last message
+            for (int i = 0; i < 200; i++)
+            {
+                messages.Add(messageQueueReceiver.Receive()); 
+            }
 
             Assert.IsTrue(messages.TrueForAll(m => m.Body == message.Body));
 
