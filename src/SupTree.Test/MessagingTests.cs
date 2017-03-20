@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using NUnit.Framework;
 using SupTree.FileSystem;
 using SupTree.Kafka;
@@ -46,7 +47,7 @@ namespace SupTree.Test
             messages.Add(messageQueueReceiver.Receive());
             messages.Add(messageQueueReceiver.Receive());
             messages.Add(messageQueueReceiver.Receive());
-            //messages.Add(messageQueueReceiver.Receive()); // Kafka can't seem to get the last message
+            messages.Add(messageQueueReceiver.Receive()); // Kafka can't seem to get the last message
 
             Assert.IsTrue(messages.TrueForAll(m => m.Body == message.Body));
 
@@ -56,7 +57,7 @@ namespace SupTree.Test
 
         private static Message GetNewMessage()
         {
-            var message = new Message();
+            var message = new Message { Tag = "A" };
             message.SetBody(new SimpleMessageObject { Guid = new Guid().ToString() });
 
             return message;
@@ -75,8 +76,16 @@ namespace SupTree.Test
                 yield return new TestCaseData(new MessageQueueFileSystem(fileSystemDir, "*.json", "json"), new MessageQueueFileSystem(fileSystemDir, "*.json", "json"));
                 yield return new TestCaseData(new MessageQueueFileSystemPlainFile(fileSystemDir, "*.txt", "txt"), new MessageQueueFileSystemPlainFile(fileSystemDir, "*.txt", "txt"));
 
-                var port = new Random().Next(15001, 16000);
+                var random = new Random();
+
+                var port = random.Next(15001, 16000);
                 yield return new TestCaseData(new MessageQueueZeroMQSender("tcp://127.0.0.1:" + port), new MessageQueueZeroMQReceiver("tcp://127.0.0.1:" + port));
+
+                var port2 = random.Next(15001, 16000);
+                var pub = new MessageQueueZeroMQPublisher("tcp://*:" + port2);
+                var sub = new MessageQueueZeroMQSubscriber("tcp://127.0.0.1:" + port2, "A");
+
+                yield return new TestCaseData(pub, sub);
 
                 //yield return new TestCaseData(new MessageQueueKafkaSender("127.0.0.1:9092", "test"), new MessageQueueKafkaReceiver("127.0.0.1:9092", "test"));
             }

@@ -10,11 +10,12 @@ namespace SupTree.ZeroMQ
 
     public class MessageQueueZeroMQSender : IMessageQueueZeroMQSender
     {
-        private readonly string _endpoint;
+        private readonly ZSocket _requester;
 
         public MessageQueueZeroMQSender(string endpoint)
         {
-            _endpoint = endpoint;
+            _requester = new ZSocket(ZSocketType.PUSH);
+            _requester.Connect(endpoint);
         }
 
         public void Send(Message message)
@@ -25,16 +26,12 @@ namespace SupTree.ZeroMQ
 
             var messageGziped = Compression.GZip(messageContent, Encoding.UTF8);
 
-            using (var requester = new ZSocket(ZSocketType.PUSH))
-            {
-                requester.Connect(_endpoint);
-
-                requester.Send(new ZFrame(messageGziped));
-            }
+            _requester.Send(new ZFrame(messageGziped));
         }
 
         public void Dispose()
         {
+            _requester.Dispose();
         }
     }
 }

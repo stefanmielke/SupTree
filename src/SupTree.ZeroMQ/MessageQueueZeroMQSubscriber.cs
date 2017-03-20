@@ -11,25 +11,25 @@ namespace SupTree.ZeroMQ
     {
         private readonly string _endpoint;
         private readonly ZSocket _receiver;
-        private readonly ZContext _context;
 
         public MessageQueueZeroMQSubscriber(string endpoint, string filter)
         {
             _endpoint = endpoint;
-            _context = new ZContext();
-            _receiver = new ZSocket(_context, ZSocketType.SUB);
+            _receiver = new ZSocket(ZSocketType.SUB);
             _receiver.Connect(endpoint);
             _receiver.Subscribe(filter);
         }
 
         public Message Receive()
         {
-            using (var request = _receiver.ReceiveFrame())
+            using (var message = _receiver.ReceiveMessage())
             {
-                var bytes = request.Read();
+                if (message.Count <=  1)
+                    return new Message();
 
+                var bytes = message[1].Read();
                 var unzipedContent = Compression.UnGZip(bytes, Encoding.UTF8);
-                return JsonConvert.DeserializeObject<Message>(unzipedContent);
+                return JsonConvert.DeserializeObject<Message>(unzipedContent); 
             }
         }
 
@@ -37,7 +37,6 @@ namespace SupTree.ZeroMQ
         {
             _receiver.Disconnect(_endpoint);
             _receiver.Dispose();
-            _context.Dispose();
         }
     }
 }
