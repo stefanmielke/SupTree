@@ -1,5 +1,4 @@
-﻿using Ninject;
-using System;
+﻿using System;
 using System.Threading;
 
 namespace SupTree.Test.TestImplementations
@@ -15,7 +14,7 @@ namespace SupTree.Test.TestImplementations
         {
             base.OnSuccess();
 
-            using (var sender = Supervisor.Container.Get<IMessageSender>())
+            using (var sender = Supervisor.Container.Resolve<IMessageSender>())
                 sender.Send(new Message { Format = "SUCCESS" });
         }
     }
@@ -31,7 +30,7 @@ namespace SupTree.Test.TestImplementations
         {
             base.OnFailure();
 
-            using (var sender = Supervisor.Container.Get<IMessageSender>())
+            using (var sender = Supervisor.Container.Resolve<IMessageSender>())
                 sender.Send(new Message { Format = "FAILURE" });
         }
     }
@@ -47,7 +46,7 @@ namespace SupTree.Test.TestImplementations
         {
             base.OnError(exception);
 
-            using (var sender = Supervisor.Container.Get<IMessageSender>())
+            using (var sender = Supervisor.Container.Resolve<IMessageSender>())
                 sender.Send(new Message { Format = "ERROR" });
         }
     }

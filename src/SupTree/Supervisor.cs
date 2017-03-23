@@ -1,24 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Ninject;
-using Ninject.Syntax;
+using Funq;
 
 namespace SupTree
 {
     public class Supervisor : ISupervisor
     {
         public SupervisorConfiguration Configuration { get; private set; }
-        public IResolutionRoot Container { get; }
+        public Container Container { get; }
 
         private readonly IMessageReceiver _receiver;
         private bool _finished;
 
         private List<Thread> _threads;
 
-        public Supervisor(IResolutionRoot container, SupervisorConfiguration configuration)
+        public Supervisor(Container container, SupervisorConfiguration configuration)
         {
-            _receiver = container.Get<IMessageReceiver>();
+            _receiver = container.Resolve<IMessageReceiver>();
             Container = container;
             Configuration = configuration;
         }
@@ -123,7 +122,7 @@ namespace SupTree
 
         private void StartWorker(Message message)
         {
-            var worker = Container.Get<IWorker>();
+            var worker = Container.Resolve<IWorker>();
             worker?.Work(this, message);
         }
     }

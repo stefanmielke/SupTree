@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using Ninject;
+using Funq;
 using NUnit.Framework;
 using SupTree.Test.TestImplementations;
 
@@ -12,7 +12,7 @@ namespace SupTree.Test
         private readonly ReceiverTest _receiver;
         private readonly SenderTest _sender;
         private readonly SupervisorConfiguration _supConfig;
-        private StandardKernel _kernel;
+        private Container _container;
 
         public SupervisorTest()
         {
@@ -31,9 +31,9 @@ namespace SupTree.Test
         {
             _sender.Messages.Clear();
 
-            _kernel = new StandardKernel();
-            _kernel.Bind<IMessageReceiver>().ToConstant(_receiver);
-            _kernel.Bind<IMessageSender>().ToConstant(_sender);
+            _container = new Container();
+            _container.Register<IMessageReceiver>(_receiver);
+            _container.Register<IMessageSender>(_sender);
         }
 
         [Test]
@@ -41,8 +41,8 @@ namespace SupTree.Test
         {
             Assert.That(_sender.Messages, Is.Empty);
 
-            _kernel.Bind<IWorker>().To<WorkerTest>();
-            var supervisor = new Supervisor(_kernel, _supConfig);
+            _container.Register<IWorker>(_ => new WorkerTest());
+            var supervisor = new Supervisor(_container, _supConfig);
             var supThread = new Thread(() => supervisor.Start());
             supThread.Start();
 
@@ -62,8 +62,8 @@ namespace SupTree.Test
         {
             Assert.That(_sender.Messages, Is.Empty);
 
-            _kernel.Bind<IWorker>().To<WorkerFailureTest>();
-            var supervisorFailure = new Supervisor(_kernel, _supConfig);
+            _container.Register<IWorker>(_ => new WorkerFailureTest());
+            var supervisorFailure = new Supervisor(_container, _supConfig);
             var supThread = new Thread(() => supervisorFailure.Start());
             supThread.Start();
 
@@ -83,8 +83,8 @@ namespace SupTree.Test
         {
             Assert.That(_sender.Messages, Is.Empty);
 
-            _kernel.Bind<IWorker>().To<WorkerErrorTest>();
-            var supervisorError = new Supervisor(_kernel, _supConfig);
+            _container.Register<IWorker>(_ => new WorkerErrorTest());
+            var supervisorError = new Supervisor(_container, _supConfig);
             var supThread = new Thread(() => supervisorError.Start());
             supThread.Start();
 
@@ -104,8 +104,8 @@ namespace SupTree.Test
         {
             Assert.That(_sender.Messages, Is.Empty);
 
-            _kernel.Bind<IWorker>().To<WorkerTest>();
-            var supervisor = new Supervisor(_kernel, _supConfig);
+            _container.Register<IWorker>(_ => new WorkerTest());
+            var supervisor = new Supervisor(_container, _supConfig);
             var supThread = new Thread(() => supervisor.Start());
             supThread.Start();
 
@@ -124,8 +124,8 @@ namespace SupTree.Test
         {
             Assert.That(_sender.Messages, Is.Empty);
 
-            _kernel.Bind<IWorker>().To<WorkerOverloadTest>();
-            var supervisorOverload = new Supervisor(_kernel, _supConfig);
+            _container.Register<IWorker>(_ => new WorkerOverloadTest());
+            var supervisorOverload = new Supervisor(_container, _supConfig);
             var supThread = new Thread(() => supervisorOverload.Start());
             supThread.Start();
 
@@ -147,8 +147,8 @@ namespace SupTree.Test
         {
             Assert.That(_sender.Messages, Is.Empty);
 
-            _kernel.Bind<IWorker>().To<WorkerTest>();
-            var supervisor = new Supervisor(_kernel, _supConfig);
+            _container.Register<IWorker>(_ => new WorkerTest());
+            var supervisor = new Supervisor(_container, _supConfig);
             var supThread = new Thread(() => supervisor.Start());
             supThread.Start();
 

@@ -1,10 +1,10 @@
-﻿using Ninject.Syntax;
+﻿using Funq;
 
 namespace SupTree
 {
     public interface ISupervisor
     {
         void Start();
-        IResolutionRoot Container { get; }
+        Container Container { get; }
     }
 }
