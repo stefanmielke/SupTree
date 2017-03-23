@@ -1,6 +1,11 @@
 # SupTree
 Simple worker processing through message passing.
 
+# Dependencies
+
+- Newtonsoft.Json
+- Funq
+
 # Usage
 
 - Reference SupTree, Suptree.Common and the modules you want to use for messaging (such as MSMQ or FileSystem);
