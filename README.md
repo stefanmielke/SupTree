@@ -18,11 +18,11 @@ var receiver = new MessageQueueFileSystem(@"C:\test_folder", "*.json", "json");
 // send messages to MSMQ
 var sender = new MessageQueueMSMQ("test_queue");
 
-var container = new StandardKernel();
-container.Bind<IMessageReceiver>().ToConstant(receiver); // binding receiver (required)
-container.Bind<IWorker>().To<WorkerTest>(); // binding worker (required)
+var container = new Funq.Container();
+container.Register<IMessageReceiver>(receiver); // registering receiver (required)
+container.Register<IWorker>(_ => new WorkerTest); // registering worker (required)
 
-container.Bind<IMessageSender>().ToConstant(sender); // binding default sender (optional, to ease the usage later)
+container.Register<IMessageSender>(sender); // registering default sender (optional, to ease the usage later)
 
 // configure to process at most 2 messages at any time
 var supConfig = new SupervisorConfiguration
@@ -44,7 +44,7 @@ var message = new Message();
 message.SetBody(new SimpleMessageObject { Guid = new Guid().ToString() });
 
 // get the correct sender from the supervisor (configured earlier)
-var sender = Supervisor.Container.Get<IMessageSender>();
+var sender = Supervisor.Container.Resolve<IMessageSender>();
 sender.Send(message);
 ```
 
