@@ -25,7 +25,7 @@ var sender = new MessageQueueMSMQ("test_queue");
 
 var container = new Funq.Container();
 container.Register<IMessageReceiver>(receiver); // registering receiver (required)
-container.Register<IWorker>(_ => new WorkerTest); // registering worker (required)
+container.Register<IWorker>(_ => new WorkerTest()); // registering worker (required)
 
 container.Register<IMessageSender>(sender); // registering default sender (optional, to ease the usage later)
 
