@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using SupTree.FileSystem;
 using SupTree.MSMQ;
+using SupTree.RabbitMQ;
 using SupTree.Test.TestImplementations;
 using SupTree.ZeroMQ;
 
@@ -76,10 +77,15 @@ namespace SupTree.Test
                 yield return new TestCaseData(new MessageQueueZeroMQSender("tcp://127.0.0.1:" + port), new MessageQueueZeroMQReceiver("tcp://127.0.0.1:" + port));
 
                 var port2 = random.Next(15001, 16000);
-                var pub = new MessageQueueZeroMQPublisher("tcp://*:" + port2);
-                var sub = new MessageQueueZeroMQSubscriber("tcp://127.0.0.1:" + port2, "A");
+                var pub0mq = new MessageQueueZeroMQPublisher("tcp://*:" + port2);
+                var sub0mq = new MessageQueueZeroMQSubscriber("tcp://127.0.0.1:" + port2, "A");
 
-                yield return new TestCaseData(pub, sub);
+                yield return new TestCaseData(pub0mq, sub0mq);
+
+                var exchange = random.Next().ToString();
+                var pubRmq = new MessageQueueRabbitMQPublisher("localhost", exchange);
+                var subRmq = new MessageQueueRabbitMQSubscriber("localhost", exchange, "test" + exchange);
+                yield return new TestCaseData(pubRmq, subRmq);
 
                 //yield return new TestCaseData(new MessageQueueKafkaSender("127.0.0.1:9092", "test"), new MessageQueueKafkaReceiver("127.0.0.1:9092", "test"));
             }
